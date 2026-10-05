@@ -210,7 +210,8 @@
   #musicToggle svg{width:14px;height:14px;flex-shrink:0;}
   #musicToggle .mt-label{white-space:nowrap;text-indent:.2em;}
   /* player do YouTube fica invisível — só toca o áudio */
-  #ytWrap{position:fixed;width:1px;height:1px;left:-9999px;top:0;opacity:0;pointer-events:none;overflow:hidden;}
+  #ytWrap{position:fixed;left:0;bottom:0;width:200px;height:200px;opacity:.01;pointer-events:none;z-index:-1;overflow:hidden;}
+  #ytWrap iframe{width:200px;height:200px;border:0;}
 
   /* ───────── RSVP ───────── */
   #rsvp{padding:64px 0 44px;text-align:center;}
@@ -424,6 +425,7 @@
 
 <!-- player oculto do YouTube (música) -->
 <div id="ytWrap"><div id="ytPlayer"></div></div>
+<audio id="audio" loop preload="auto" playsinline></audio>
 
 <!-- floating music control -->
 <div id="musicToggle" title="Nossa música">
@@ -445,6 +447,9 @@ const CONFIG = {
 
   // música (YouTube) — só o ID do vídeo
   youtubeId: 'kdbEgqENd8c',
+  // opcional: se colocar um arquivo .mp3 junto do convite (ex.: 'musica.mp3'),
+  // ele é usado no lugar do YouTube — é o jeito mais garantido no iPhone.
+  musicaMp3: '',
 
   // mapa (cerimônia e recepção no mesmo local)
   mapCerimonia: 'https://maps.app.goo.gl/nN2argrLUupxXojE8',
@@ -503,8 +508,11 @@ document.getElementById('pixCopy').addEventListener('click',async function(){
   setTimeout(()=>{this.classList.remove('copied');lbl.textContent='Copiar chave';},2600);
 });
 
-/* ─── MÚSICA (YouTube oculto) ─── */
+/* ─── MÚSICA — toca ao tocar em "toque para abrir" ───
+   Usa o YouTube (oculto) ou, se definido, o arquivo musicaMp3.        */
 const musicToggle=document.getElementById('musicToggle');
+const audio=document.getElementById('audio');
+const usaMp3=!!CONFIG.musicaMp3;
 let yt=null, ytReady=false, querTocar=false, tocando=false;
 function setMusicIcon(p){
   tocando=p;
@@ -512,23 +520,43 @@ function setMusicIcon(p){
   document.getElementById('iconPause').style.display=p?'block':'none';
   const r=document.getElementById('musicRow'); if(r) r.style.display=p?'inline-flex':'none';
 }
-window.onYouTubeIframeAPIReady=function(){
-  yt=new YT.Player('ytPlayer',{
-    width:1,height:1,videoId:CONFIG.youtubeId,
-    playerVars:{autoplay:0,controls:0,loop:1,playlist:CONFIG.youtubeId,playsinline:1,rel:0,modestbranding:1},
-    events:{
-      onReady:()=>{ytReady=true;yt.setVolume(85);if(querTocar)tocar();},
-      onStateChange:e=>{
-        if(e.data===YT.PlayerState.PLAYING) setMusicIcon(true);
-        else if(e.data===YT.PlayerState.PAUSED) setMusicIcon(false);
-        else if(e.data===YT.PlayerState.ENDED){yt.seekTo(0);yt.playVideo();}
+if(usaMp3){
+  audio.src=CONFIG.musicaMp3; audio.volume=.85;
+  audio.addEventListener('play',()=>setMusicIcon(true));
+  audio.addEventListener('pause',()=>setMusicIcon(false));
+}else{
+  window.onYouTubeIframeAPIReady=function(){
+    const pv={autoplay:0,controls:0,loop:1,playlist:CONFIG.youtubeId,playsinline:1,rel:0,modestbranding:1,enablejsapi:1};
+    if(/^https?:/.test(location.protocol)) pv.origin=location.origin;
+    yt=new YT.Player('ytPlayer',{
+      width:200,height:200,videoId:CONFIG.youtubeId,playerVars:pv,
+      events:{
+        onReady:()=>{ytReady=true;try{yt.setVolume(85);}catch(e){} if(querTocar)tocar();},
+        onStateChange:e=>{
+          if(e.data===YT.PlayerState.PLAYING) setMusicIcon(true);
+          else if(e.data===YT.PlayerState.PAUSED) setMusicIcon(false);
+          else if(e.data===YT.PlayerState.ENDED){yt.seekTo(0);yt.playVideo();}
+        }
       }
-    }
-  });
-};
-(function(){const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);})();
-function tocar(){ querTocar=true; if(ytReady){ try{yt.unMute();yt.playVideo();}catch(e){} } }
-function pausar(){ querTocar=false; if(ytReady){ try{yt.pauseVideo();}catch(e){} } }
+    });
+  };
+  const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);
+}
+function tocar(){
+  querTocar=true;
+  if(usaMp3){ const pr=audio.play(); if(pr&&pr.catch) pr.catch(()=>{}); return; }
+  if(ytReady){ try{ yt.unMute(); yt.setVolume(85); yt.playVideo(); }catch(e){} }
+}
+function pausar(){
+  querTocar=false;
+  if(usaMp3){ audio.pause(); return; }
+  if(ytReady){ try{yt.pauseVideo();}catch(e){} }
+}
+/* rede de segurança: se o navegador segurar o som no 1º toque,
+   qualquer toque seguinte na página tenta de novo até começar a tocar */
+['touchend','click','keydown'].forEach(ev=>document.addEventListener(ev,e=>{
+  if(querTocar && !tocando && !e.target.closest('#musicToggle,#splash')) tocar();
+},{passive:true}));
 
 /* ─── SPLASH dismiss ─── */
 document.getElementById('splash').addEventListener('click',function(){
