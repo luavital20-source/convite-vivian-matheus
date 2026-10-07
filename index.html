@@ -441,7 +441,7 @@
         <div id="rsvpStep1">
           <label class="lbl" for="rsvpBusca">Digite seu nome</label>
           <input class="rsvp-search" id="rsvpBusca" type="search" autocomplete="off" placeholder="Ex.: Maria">
-          <p class="rsvp-hint" id="rsvpHint">Digite pelo menos 3 letras.</p>
+          <p class="rsvp-hint" id="rsvpHint"></p>
           <div class="rsvp-results" id="rsvpResults"></div>
         </div>
         <!-- passo 2: escolher quem vai -->
@@ -523,7 +523,7 @@ const CONFIG = {
 
   // ══ Confirmação de presença — WhatsApp que recebe o aviso ══
   // Só números, com 55 + DDD. Ex.: '5585999998888'
-  whatsapp: '558584123803',   // (85) 8412-3803
+  whatsapp: '5585984123803',   // (85) 98412-3803
 
   versiculo:    'E, acima de tudo, tenham amor, pois o amor une perfeitamente todas as coisas.',
   versiculoRef: 'Colossenses 3:14',
@@ -778,7 +778,7 @@ const CONVIDADOS = [
   function listar(){
     const q=norm(busca.value);
     results.innerHTML='';
-    if(q.length<3){hint.textContent='Digite pelo menos 3 letras.';return;}
+    if(q.length<3){hint.textContent='';return;}
     const termos=q.split(/\s+/);
     const achados=convites.filter(c=>termos.every(w=>c.busca.includes(w))).slice(0,8);
     if(!achados.length){
