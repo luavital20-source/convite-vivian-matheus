@@ -226,6 +226,16 @@
   .btn-fill:hover{background:transparent;color:var(--terra-deep);}
   .btn-fill svg{width:14px;height:14px;}
 
+  /* MANUAL DO CONVIDADO */
+  #manual{padding:58px 0;text-align:center;}
+  .manual-card{margin:34px auto 0;max-width:460px;background:rgba(239,227,211,.6);border:1px solid var(--line);border-radius:8px;
+    padding:30px 20px;display:grid;grid-template-columns:1fr 1fr;gap:26px 14px;text-align:left;box-shadow:0 14px 30px rgba(59,43,34,.06);}
+  .mi{display:flex;align-items:center;gap:12px;font-size:15px;line-height:1.35;color:var(--ink);}
+  .mi svg{width:28px;height:28px;flex-shrink:0;color:var(--terra);fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;}
+  @media(max-width:360px){.manual-card{grid-template-columns:1fr;}}
+  .rsvp-notfound{margin-top:16px;text-align:center;}
+  .rsvp-notfound p{font-size:14px;color:var(--ink-soft);line-height:1.6;}
+  .rsvp-notfound .btn-fill{margin-top:14px;width:100%;letter-spacing:.14em;text-indent:0;}
   /* RSVP — busca na lista */
   .rsvp-box{max-width:380px;margin:30px auto 0;text-align:left;}
   .rsvp-box label.lbl{display:block;font-size:12px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--terra-deep);margin-bottom:8px;}
@@ -396,7 +406,7 @@
   <!-- DRESS / MANUAL DOS CONVIDADOS -->
   <section id="dress">
     <div class="inner">
-      <p class="sec-label reveal">manual dos convidados</p>
+      <p class="sec-label reveal">traje</p>
       <h2 class="sec-title reveal">Dress <span class="it">code</span></h2>
       <div class="divider reveal"><span class="ln"></span><span class="dot"></span><span class="ln r"></span></div>
       <svg class="dress-icon reveal d1" viewBox="0 0 48 48" fill="none"><path d="M24 12a3 3 0 100-6 3 3 0 000 6zm0 0v3l-13 9c-2 1.4-1 4 1.4 4h23.2c2.4 0 3.4-2.6 1.4-4l-13-9" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M7 32h34" stroke="currentColor" stroke-width="1.3"/></svg>
@@ -410,6 +420,27 @@
   </section>
 
   <!-- GIFTS / PIX -->
+  <!-- MANUAL DO CONVIDADO -->
+  <section id="manual">
+    <div class="inner">
+      <p class="sec-label reveal">para tornar o dia perfeito</p>
+      <h2 class="sec-title reveal">Manual do <span class="it">Convidado</span></h2>
+      <div class="divider reveal"><span class="ln"></span><span class="dot"></span><span class="ln r"></span></div>
+      <div class="manual-card reveal d1">
+        <div class="mi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.2l2.7 2.7L16 9.6"/></svg><span>Confirme sua presença</span></div>
+        <div class="mi"><svg viewBox="0 0 24 24"><path d="M12 2.5v3M10.5 4h3"/><path d="M5 11l7-5.5 7 5.5"/><path d="M6.5 10v10.5h11V10"/><path d="M10 20.5v-4a2 2 0 014 0v4"/><path d="M4 20.5h16"/></svg><span>Participe da cerimônia</span></div>
+        <div class="mi"><svg viewBox="0 0 24 24"><path d="M10 3l.8 4.5M14 3l-.8 4.5"/><path d="M10.8 7.5h2.4l.9 4L18 20.5H6l3.9-9z"/></svg><span>Branco é a cor da noiva</span></div>
+        <div class="mi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg><span>Aproveite bastante</span></div>
+        <div class="mi"><svg viewBox="0 0 24 24"><path d="M12 3.5v2"/><rect x="8.5" y="5.5" width="7" height="4" rx="1"/><path d="M6 9.5h12v4H6z"/><path d="M12 13.5v5M8 18.5h8M5 21h14"/></svg><span>Aguarde a liberação da mesa de doces</span></div>
+        <div class="mi"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><path d="M12 7v6M12 10l-2.5-1.5M12 10l2.5-1.5"/><path d="M8 13h8l-1 8H9z"/></svg><span>Não leve a decoração para casa</span></div>
+        <div class="mi"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="1.5"/><path d="M3.5 7l8.5 6.5L20.5 7"/><path d="M12 16.6l-1.6-1.5a1 1 0 011.6-1.2 1 1 0 011.6 1.2z"/></svg><span>Convidado não convida</span></div>
+        <div class="mi"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="7"/><path d="M12 9.5V13l2.5 1.8"/><path d="M4.5 5.5l3-2.5M19.5 5.5l-3-2.5M7 19.5l-1.5 2M17 19.5l1.5 2"/></svg><span>Não atrase, seja pontual</span></div>
+        <div class="mi"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8.5 7l1.5-2.5h4L15.5 7"/><circle cx="12" cy="13.5" r="3.5"/></svg><span>Não atrapalhe os fotógrafos</span></div>
+        <div class="mi"><svg viewBox="0 0 24 24"><circle cx="8" cy="6" r="2.2"/><circle cx="16" cy="6" r="2.2"/><path d="M4 20v-6a4 4 0 018 0v6M12 20v-6a4 4 0 018 0v6"/></svg><span>Não saia sem se despedir dos noivos</span></div>
+      </div>
+    </div>
+  </section>
+
   <section id="gifts">
     <div class="inner">
       <p class="sec-label reveal">presentes</p>
@@ -782,7 +813,9 @@ const CONVIDADOS = [
     const termos=q.split(/\s+/);
     const achados=convites.filter(c=>termos.every(w=>c.busca.includes(w))).slice(0,8);
     if(!achados.length){
-      hint.innerHTML='Não encontramos esse nome. Tente só o primeiro nome ou um apelido — ou <a href="'+waLink('Olá! Não encontrei meu nome na lista de confirmação do casamento de '+CONFIG.noivos+'. Meu nome é: ')+'" target="_blank" rel="noopener" style="color:var(--terra-deep)">fale com os noivos</a>.';
+      hint.textContent='';
+      results.innerHTML='<div class="rsvp-notfound"><p>Não encontramos esse nome. Tente só o primeiro nome ou um apelido. Se ainda assim não aparecer, fale com os noivos:</p>'+
+        '<a class="btn-fill" target="_blank" rel="noopener" href="'+waLink('Olá! Não encontrei meu nome na lista de confirmação do casamento de '+CONFIG.noivos+'. Meu nome é: ')+'">Falar com os noivos</a></div>';
       return;
     }
     hint.textContent=achados.length>1?'Toque no seu convite:':'É você? Toque para confirmar:';
